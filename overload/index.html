@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Overload">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="theme-color" content="#f5f1ea">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="icon" href="icon-192.png">
+<title>Overload</title>
+<style>
+:root{--bg:#f5f1ea;--card:#fff;--text:#2b2926;--mut:#8d877c;--line:#ebe5da;--ok:#22a06b;--okt:#e3f5ec;--part:#e8930c;--partt:#fdf1dc;--bad:#e5484d;--badt:#fde8e8;--blue:#3b82f6;--bluet:#e6f0fe;--sh:0 2px 12px rgba(70,50,20,.07)}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;background:var(--bg);color:var(--text);font:16px/1.45 ui-rounded,"SF Pro Rounded","Nunito","Segoe UI",system-ui,sans-serif}
+main{max-width:560px;margin:0 auto;padding:16px 16px 120px}
+h1{font-size:26px;margin:0;letter-spacing:-.3px}h2{font-size:15px;margin:22px 4px 8px;color:var(--mut);font-weight:700;text-transform:uppercase;letter-spacing:.6px}h3{margin:0;font-size:18px}
+.mut{color:var(--mut)}.sm{font-size:13px}.b{font-weight:700}
+.card{background:var(--card);border-radius:22px;padding:16px;margin:0 0 12px;box-shadow:var(--sh)}
+.row{display:flex;align-items:center;gap:10px}.sp{flex:1;min-width:0}
+button{font:inherit;cursor:pointer;border:0}
+.btn{display:block;width:100%;padding:15px;border-radius:16px;font-weight:800;font-size:17px;background:var(--text);color:#fff;text-align:center;text-decoration:none}
+.btn.soft{background:#fff;color:var(--text);box-shadow:var(--sh)}
+.btn.ghost{background:transparent;color:var(--mut);font-weight:600;font-size:15px;padding:10px}
+.btn.ok{background:var(--ok)}
+.hero{background:linear-gradient(135deg,#ff7a59,#f5a524);color:#fff;border-radius:28px;padding:26px 20px;font-size:24px;font-weight:800;box-shadow:0 10px 30px rgba(255,122,89,.35);width:100%;text-align:left;display:flex;align-items:center;gap:14px}
+.hero .ar{margin-left:auto;font-size:30px}
+.hero small{display:block;font-size:14px;font-weight:600;opacity:.9}
+.top{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+.back{width:42px;height:42px;border-radius:50%;background:#fff;box-shadow:var(--sh);font-size:20px;color:var(--text);flex:none;display:flex;align-items:center;justify-content:center;text-decoration:none}
+.ic{width:54px;height:54px;border-radius:18px;display:flex;align-items:center;justify-content:center;font-size:28px;flex:none}
+.reg{display:flex;align-items:center;gap:14px;cursor:pointer}
+.badge{font-size:12px;font-weight:800;padding:4px 10px;border-radius:99px;white-space:nowrap}
+.b-done{background:var(--okt);color:var(--ok)}.b-part{background:var(--partt);color:var(--part)}.b-todo{background:#f1ede6;color:var(--mut)}
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:4px}
+.chip{font-size:12px;padding:3px 9px;border-radius:99px;background:#f4f0e9;color:var(--mut);font-weight:600}
+.chip.done{background:var(--okt);color:var(--ok)}.chip.part{background:var(--partt);color:var(--part)}
+.dots{display:flex;gap:6px;margin:10px 0 4px}.dots i{flex:1;height:10px;border-radius:5px;background:#eee7dc}.dots i.f{background:var(--ok)}
+.tgt{border-radius:18px;padding:14px;margin-bottom:12px}
+.tgt.up{background:var(--okt);color:#16794f}.tgt.reps{background:var(--bluet);color:#215fc2}.tgt.new{background:#f1ede6;color:var(--mut)}
+.tgt b{font-size:18px;display:block;margin-bottom:2px}
+.alert{border-radius:16px;padding:12px 14px;margin:0 0 12px;font-size:14px;font-weight:600}
+.alert.bad{background:var(--badt);color:#b8292e}.alert.warn{background:var(--partt);color:#a8650a}.alert.good{background:var(--okt);color:#16794f}
+.set{display:flex;align-items:center;gap:12px;padding:12px 0;border-top:1px solid var(--line);cursor:pointer}
+.set:first-child{border-top:0}
+.sn{width:34px;height:34px;border-radius:50%;background:#f1ede6;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px;flex:none}
+.sv{font-size:20px;font-weight:800}
+.dl{font-size:12px;font-weight:800;padding:4px 9px;border-radius:99px}
+.dl.up{background:var(--okt);color:var(--ok)}.dl.eq{background:var(--partt);color:var(--part)}.dl.down{background:var(--badt);color:var(--bad)}
+.sw{font-size:12px;font-weight:600;margin-top:2px}.sw.bad{color:var(--bad)}.sw.warn{color:var(--part)}
+.h{display:flex;gap:10px;padding:7px 0;border-top:1px solid var(--line);font-size:14px;align-items:baseline}
+.h:first-of-type{border-top:0}.h .d{width:78px;color:var(--mut);flex:none}.h .s{flex:1}
+.avg{background:#f7f4ee;border-radius:12px;padding:8px 10px;margin-top:8px;font-size:13px}
+.slot{cursor:pointer}
+.slot .nm{font-size:20px;font-weight:800}
+.sub{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:14px;background:#f7f4ee;margin-top:8px;cursor:pointer}
+#sheet .ov{position:fixed;inset:0;background:rgba(40,30,20,.35);z-index:10;display:flex;align-items:flex-end;justify-content:center;animation:f .15s}
+#sheet .sh{background:#fff;border-radius:26px 26px 0 0;padding:18px 18px calc(18px + env(safe-area-inset-bottom));width:100%;max-width:560px;max-height:90vh;overflow:auto;animation:u .2s ease-out}
+@keyframes f{from{opacity:0}}@keyframes u{from{transform:translateY(40px)}}
+.opt{display:flex;align-items:center;gap:12px;padding:14px;border-radius:16px;background:#f7f4ee;margin-top:10px;cursor:pointer;border:2px solid transparent}
+.opt.sug{border-color:var(--ok)}
+.stp{display:flex;align-items:center;gap:10px;margin:8px 0 14px}
+.stp button{width:58px;height:58px;border-radius:18px;background:#f1ede6;font-size:26px;font-weight:700;color:var(--text);flex:none}
+.stp input{flex:1;min-width:0;height:58px;border-radius:18px;border:2px solid var(--line);text-align:center;font:800 26px ui-rounded,system-ui;color:var(--text);background:#fff}
+.stp input:focus{outline:none;border-color:var(--text)}
+.lbl{font-size:13px;font-weight:700;color:var(--mut);text-transform:uppercase;letter-spacing:.5px}
+.foot{position:fixed;left:0;right:0;bottom:0;padding:12px 16px calc(12px + env(safe-area-inset-bottom));background:linear-gradient(transparent,var(--bg) 35%);z-index:5}
+.foot .in{max-width:560px;margin:0 auto}
+.it{display:flex;align-items:center;gap:10px;padding:11px 0;border-top:1px solid var(--line);cursor:pointer}.it:first-child{border-top:0}
+svg.ch{width:100%;height:110px;display:block;margin-top:6px}
+input.plain{width:100%;padding:12px;border-radius:14px;border:2px solid var(--line);font:inherit}
+</style>
+</head>
+<body>
+<main id="app"></main>
+<div id="sheet"></div>
+<input type="file" id="importFile" accept="application/json,.json" hidden>
+<script>
+'use strict';
+/* ================= PROGRAM (kendine göre buradan değiştir) ================= */
+const OVERLOAD_AT = 8;   // 1. sette bu sayıyı GEÇERSEN (9+) bir sonraki sefer ağırlık artır
+const MIN_SETS = 2;      // hareket kaç sette tamamlanmış sayılır
+const EX = {
+  bench:{n:'Bench Press'}, chestpress:{n:'Chest Press Machine'}, pecfly:{n:'Pec Fly (makine)'},
+  pullup:{n:'Pull-up',bw:1}, pulldown:{n:'Lat Pulldown (makine)'},
+  cablerow:{n:'Seated Cable Row'}, facepull:{n:'Face Pull'},
+  shpress:{n:'Shoulder Press Machine'}, lateral:{n:'Lateral Raise (kablo)'},
+  ropecurl:{n:'Rope Curl'}, bayesian:{n:'Bayesian Curl'},
+  ropepush:{n:'Rope Pushdown'}, singlepush:{n:'Single Hand Pushdown'}, ohext:{n:'Overhead Triceps Ext.'},
+  legcurl:{n:'Leg Curl'}, hack:{n:'Hack Squat'}, calf:{n:'Calf Raise'}, legext:{n:'Leg Extension'},
+};
+/* opts: her seçenek bir hareket listesi (Hack Squat + Calf Raise gibi ikili seçenekler olabilir). rot: sırayla dönüşümlü öner */
+const REG = [
+  {id:'chest',n:'Göğüs',ic:'🛡️',c:'#ff7a59',slots:[{id:'push',n:'İtiş',opts:[['bench'],['chestpress']]},{id:'fly',n:'Fly',opts:[['pecfly']]}]},
+  {id:'back',n:'Sırt',ic:'🦅',c:'#1fa392',slots:[{id:'pull',n:'Pull',opts:[['pullup'],['pulldown']]},{id:'row',n:'Row',rot:1,opts:[['cablerow'],['facepull']]}]},
+  {id:'shoulder',n:'Omuz',ic:'⛰️',c:'#8b7cf6',slots:[{id:'press',n:'Press',opts:[['shpress']]},{id:'lat',n:'Lateral',opts:[['lateral']]}]},
+  {id:'arm',n:'Kol',ic:'💪',c:'#eb9b0c',slots:[{id:'bi',n:'Biceps',opts:[['ropecurl'],['bayesian']]},{id:'tri',n:'Triceps',opts:[['ropepush'],['singlepush'],['ohext']]}]},
+  {id:'legs',n:'Bacak',ic:'🦵',c:'#3b82f6',slots:[{id:'leg',n:'Günün bacağı',rot:1,opts:[['legcurl'],['hack','calf'],['legext']]}]},
+];
+/* ========================================================================= */
+const KEY='overload.v2';
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const uid=()=>Math.random().toString(36).slice(2,9)+Date.now().toString(36).slice(-4);
+const num=v=>{if(v===''||v==null)return null;const n=parseFloat(String(v).replace(',','.'));return isNaN(n)?null:n};
+const r1=n=>Math.round(n*10)/10, r2=n=>Math.round(n*100)/100;
+const GUN=['Pzt','Sal','Çar','Per','Cum','Cmt','Paz'];
+const fmtD=iso=>{const d=new Date(iso);return GUN[(d.getDay()+6)%7]+' '+d.toLocaleDateString('tr-TR',{day:'2-digit',month:'2-digit'})};
+const kgT=(kg,ex)=>kg===0&&EX[ex]?.bw?'BW':(EX[ex]?.bw?'+':'')+kg+' kg';
+const setT=(s,ex)=>`${kgT(s.kg,ex)} × ${s.reps}`;
+const reg=id=>REG.find(r=>r.id===id), slotOf=(r,id)=>r.slots.find(s=>s.id===id);
+const optName=o=>o.map(x=>EX[x].n).join(' + ');
+
+function blank(){return{v:2,weekly:3,sessions:[],active:null}}
+let S;try{S=JSON.parse(localStorage.getItem(KEY))||blank()}catch(e){S=blank()}
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
+let sheet=null, summary=null;
+
+/* ---------- geçmiş & ilerleme ---------- */
+const done=()=>S.sessions.filter(s=>s.end).sort((a,b)=>b.date.localeCompare(a.date));
+function hist(ex,n=3,before){const o=[];for(const s of done()){if(before&&s.date>=before)continue;const l=s.logs[ex];if(l&&l.length){o.push({date:s.date,sets:l});if(o.length>=n)break}}return o}
+const lastDate=ex=>hist(ex,1)[0]?.date||'';
+function key2(sets){const f=sets.slice(0,MIN_SETS),k=Math.max(...f.map(x=>x.kg));return[k,f.filter(x=>x.kg===k).reduce((a,x)=>a+x.reps,0)]}
+function cmp(a,b){const[ka,ra]=key2(a),[kb,rb]=key2(b);if(ka!==kb)return ka>kb?1:-1;return ra>rb?1:ra<rb?-1:0}
+function plateau(ex){const h=hist(ex,3);return h.length>=3&&cmp(h[0].sets,h[1].sets)<=0&&cmp(h[1].sets,h[2].sets)<=0}
+function target(ex){const h=hist(ex,1)[0];if(!h)return null;const s1=h.sets[0];
+  return s1.reps>OVERLOAD_AT?{up:1,from:s1.kg,h}:{up:0,kg:s1.kg,h}}
+function avg3(ex){const h=hist(ex,3);return[0,1].map(i=>{const xs=h.map(x=>x.sets[i]).filter(Boolean);if(!xs.length)return null;
+  return{kg:r1(xs.reduce((a,x)=>a+x.kg,0)/xs.length),reps:r1(xs.reduce((a,x)=>a+x.reps,0)/xs.length),n:xs.length}})}
+const score=s=>s.kg>0?s.kg*(1+s.reps/30):s.reps;
+function setCmp(ex,i,cur){
+  const t=target(ex),p=t?.h.sets[i],a=avg3(ex)[i];let d=null,w=null;
+  if(p){if(cur.kg>p.kg)d={c:'up',t:`▲ +${r2(cur.kg-p.kg)} kg`};else if(cur.kg<p.kg)d={c:'down',t:`▼ −${r2(p.kg-cur.kg)} kg`};
+    else{const x=cur.reps-p.reps;d=x>0?{c:'up',t:`▲ +${x} tekrar`}:x<0?{c:'down',t:`▼ ${x} tekrar`}:{c:'eq',t:'= aynı'}}}
+  if(i===0&&t?.up&&cur.kg<=t.from)w={c:'bad',t:`Ağırlığı artırman gerekiyordu (geçen: ${kgT(t.from,ex)})`};
+  else if(d?.c==='down')w={c:'bad',t:`Geçen seferin altında kaldın (${setT(p,ex)})`};
+  else if(a&&a.n>=2&&score(cur)<score(a)-1e-9)w={c:'warn',t:`Son ${a.n} antrenman ortalamasının altında (${kgT(a.kg,ex)} × ${a.reps})`};
+  else if(d?.c==='eq')w={c:'warn',t:'Geçen seferle aynı — 1 tekrar daha zorlayabilirdin'};
+  return{d,w};
+}
+/* ---------- aktif antrenman ---------- */
+const K=(r,s)=>r.id+'.'+s.id;
+function pick(r,s){const p=S.active?.picks[K(r,s)];return p!=null?p:(s.opts.length===1?0:null)}
+const logs=ex=>S.active?.logs[ex]||[];
+const slotExs=(r,s)=>{const p=pick(r,s);return p==null?[]:s.opts[p]};
+function slotState(r,s){const xs=slotExs(r,s);if(!xs.length)return'todo';if(xs.every(x=>logs(x).length>=MIN_SETS))return'done';return xs.some(x=>logs(x).length)?'part':'todo'}
+function regState(r){const st=r.slots.map(s=>slotState(r,s));return st.every(x=>x==='done')?'done':st.some(x=>x!=='todo')?'part':'todo'}
+function suggest(s){if(!s.rot)return -1;let best=0,bd='~';s.opts.forEach((o,i)=>{const d=o.map(lastDate).sort().reverse()[0]||'';if(d<bd){bd=d;best=i}});return best}
+const BADGE={done:['b-done','Tamam ✓'],part:['b-part','Yarım'],todo:['b-todo','Başlanmadı']};
+
+/* ---------- hafta ---------- */
+function weekStart(d=new Date()){const x=new Date(d);x.setHours(0,0,0,0);x.setDate(x.getDate()-(x.getDay()+6)%7);return x}
+function weekCount(ws){const we=new Date(ws);we.setDate(we.getDate()+7);const ds=new Set();for(const s of S.sessions)if(s.end){const d=new Date(s.date);if(d>=ws&&d<we)ds.add(d.toDateString())}return ds.size}
+
+/* ================= EKRANLAR ================= */
+const route=()=>(location.hash.slice(1)||'home').split('/');
+function render(){
+  const [p,...a]=route();let h;
+  if(p==='workout')h=S.active?vWorkout():vHome();
+  else if(p==='region')h=S.active?vRegion(reg(a[0])):vHome();
+  else if(p==='ex')h=S.active?vEx(reg(a[0]),slotOf(reg(a[0]),a[1]),a[2]):vHome();
+  else if(p==='stats')h=vStats();else if(p==='stat')h=vStat(a[0]);else if(p==='settings')h=vSettings();else h=vHome();
+  document.getElementById('app').innerHTML=h;
+  document.getElementById('sheet').innerHTML=sheet?vSheet():summary?vSummary():'';
+  const f=document.querySelector('#sheet input[data-auto]');if(f)setTimeout(()=>f.focus(),60);
+}
+const hdr=(href,title,sub)=>`<div class="top"><a class="back" href="${href}">←</a><div class="sp"><h1>${title}</h1>${sub?`<div class="mut sm">${sub}</div>`:''}</div></div>`;
+
+function vHome(){
+  const ws=weekStart(),c=weekCount(ws),t=S.weekly,last=done()[0];
+  const days=last?Math.floor((new Date().setHours(0,0,0,0)-new Date(new Date(last.date).setHours(0,0,0,0)))/864e5):null;
+  const plats=Object.keys(EX).filter(plateau);
+  let act='';
+  if(S.active){const n=REG.filter(r=>regState(r)==='done').length;act=`<a href="#workout" class="hero" style="text-decoration:none">🔥<div>Devam et<small>${n}/${REG.length} bölge tamam</small></div><span class="ar">→</span></a>`}
+  else act=`<button class="hero" data-act="start">🏋️<div>Antrenmana başla<small>${last?`Son antrenman: ${days===0?'bugün':days===1?'dün':days+' gün önce'}`:'İlk antrenmanın'}</small></div><span class="ar">→</span></button>`;
+  return `<div class="row" style="margin:6px 4px 18px"><h1 class="sp">Selam 👋</h1><a href="#stats" class="back" title="İstatistik">📈</a><a href="#settings" class="back" title="Ayarlar">⚙️</a></div>
+${act}
+<div class="card" style="margin-top:16px"><div class="row"><span class="b sp">Bu hafta</span><span class="b">${c}/${t}</span></div>
+<div class="dots">${Array.from({length:Math.max(t,c)},(_,i)=>`<i class="${i<c?'f':''}"></i>`).join('')}</div>
+<div class="mut sm">${c>=t?'Haftalık hedef tamam 🎉':`${t-c} antrenman daha`}</div></div>
+${plats.length?`<h2>Plato tehlikesi</h2><div class="card">${plats.map(x=>`<div class="it" onclick="location.hash='#stat/${x}'"><span class="sp b">${EX[x].n}</span><span class="badge b-part">3 antrenmandır artış yok</span></div>`).join('')}
+<div class="mut sm" style="margin-top:8px">Bu hareketlerde bir sonraki sefer ya ağırlık ya tekrar mutlaka artmalı.</div></div>`:''}
+${!S.sessions.length&&!S.active?`<button class="btn ghost" data-act="demo" style="margin-top:20px">Önce örnek verilerle bakmak ister misin?</button>`:''}`;
+}
+
+function vWorkout(){
+  const t=new Date(S.active.start).toLocaleTimeString('tr-TR',{hour:'2-digit',minute:'2-digit'});
+  return `${hdr('#home','Antrenman',`${t}'de başladı · istediğin sırayla git`)}
+${REG.map(r=>{const st=regState(r),[bc,bt]=BADGE[st];
+  return `<div class="card reg" onclick="location.hash='#region/${r.id}'" style="${st==='done'?'opacity:.75':''}">
+<div class="ic" style="background:${r.c}22">${r.ic}</div>
+<div class="sp"><h3>${r.n}</h3><div class="chips">${r.slots.map(s=>{const ss=slotState(r,s);return `<span class="chip ${ss==='todo'?'':ss}">${s.n}${ss==='done'?' ✓':''}</span>`}).join('')}</div></div>
+<span class="badge ${bc}">${bt}</span></div>`}).join('')}
+<div class="foot"><div class="in"><button class="btn" data-act="finish">Antrenmanı bitir</button><button class="btn ghost" data-act="cancel">İptal et</button></div></div>`;
+}
+
+function lastLine(ex){const h=hist(ex,1)[0];return h?`${fmtD(h.date)} · ${h.sets.map(s=>setT(s,ex)).join(', ')}`:'Henüz kayıt yok'}
+function vRegion(r){
+  const st=regState(r);
+  return `${hdr('#workout',`<span style="color:${r.c}">${r.ic}</span> ${r.n}`)}
+${st==='done'?`<div class="alert good">${r.n} bitti 🎉</div>`:''}
+${r.slots.map(s=>{const p=pick(r,s),ss=slotState(r,s),[bc,bt]=BADGE[ss],xs=slotExs(r,s),lg=xs.some(x=>logs(x).length);
+  const click=p==null?`data-act="pickSheet" data-r="${r.id}" data-s="${s.id}"`:(xs.length===1?`onclick="location.hash='#ex/${r.id}/${s.id}/${xs[0]}'"`:'');
+  return `<div class="card slot" ${click} style="border-left:6px solid ${ss==='done'?'var(--ok)':r.c}">
+<div class="row"><span class="nm sp">${s.n}</span><span class="badge ${bc}">${bt}</span></div>
+${p==null?`<div class="mut" style="margin-top:4px">${s.opts.map(optName).join(' / ')}</div><div class="b" style="margin-top:8px;color:${r.c}">Hareket seç →</div>`
+ :xs.length===1?`<div class="b" style="margin-top:4px">${EX[xs[0]].n} <span class="mut sm">· ${logs(xs[0]).length} set</span></div><div class="mut sm">Son: ${lastLine(xs[0])}</div>`
+ :xs.map(x=>`<div class="sub" onclick="event.stopPropagation();location.hash='#ex/${r.id}/${s.id}/${x}'"><div class="sp"><div class="b">${EX[x].n}</div><div class="mut sm">Son: ${lastLine(x)}</div></div><span class="badge ${logs(x).length>=MIN_SETS?'b-done':logs(x).length?'b-part':'b-todo'}">${logs(x).length} set</span></div>`).join('')}
+${p!=null&&s.opts.length>1&&!lg?`<button class="btn ghost sm" style="padding:6px 0 0;text-align:left" onclick="event.stopPropagation();A.pickSheet({r:'${r.id}',s:'${s.id}'})">Değiştir</button>`:''}
+</div>`}).join('')}
+<div class="foot"><div class="in"><a class="btn soft" href="#workout">Bölgelere dön</a></div></div>`;
+}
+
+function nextInRegion(r,curEx){
+  for(const s of r.slots){const xs=slotExs(r,s);
+    if(!xs.length)return{href:`#region/${r.id}`,label:s.n,pick:[r.id,s.id]};
+    for(const x of xs)if(x!==curEx&&logs(x).length<MIN_SETS)return{href:`#ex/${r.id}/${s.id}/${x}`,label:EX[x].n}}
+  return null;
+}
+function vEx(r,s,ex){
+  if(!r||!s||!EX[ex])return vWorkout();
+  const t=target(ex),h=hist(ex,3),a=avg3(ex),L=logs(ex),pl=plateau(ex);
+  let tg;
+  if(!t)tg=`<div class="tgt new"><b>İlk kayıt</b>Rahat, temiz tekrarla ağır bir başlangıç yap.</div>`;
+  else if(t.up)tg=`<div class="tgt up"><b>⬆ Ağırlığı artır · geçen: ${kgT(t.from,ex)}</b>Sıradaki kiloyu tak, kendin yaz. Geçen sefer 1. sette ${t.h.sets[0].reps} tekrar yaptın, ${OVERLOAD_AT}'i geçtin. Yeni ağırlıkta tekrar düşebilir, normal.</div>`;
+  else{const p=t.h.sets;tg=`<div class="tgt reps"><b>➕ ${kgT(t.kg,ex)}'da kal, tekrar artır</b>Geçen: ${p.map(x=>x.reps).join(', ')} tekrar → hedef: 1. sette ${p[0].reps+1}+ ya da 2. sette ${(p[1]?.reps??p[0].reps)+1}+${p[0].reps===OVERLOAD_AT?`<br>1. sette ${OVERLOAD_AT+1} yaparsan bir dahakine ağırlık artıyor.`:''}</div>`}
+  const rows=L.map((x,i)=>{const{d,w}=setCmp(ex,i,x);return `<div class="set" data-act="setSheet" data-r="${r.id}" data-s="${s.id}" data-x="${ex}" data-i="${i}">
+<span class="sn">${i+1}</span><div class="sp"><div class="sv">${setT(x,ex)}</div>${w?`<div class="sw ${w.c}">${w.t}</div>`:''}</div>${d?`<span class="dl ${d.c}">${d.t}</span>`:''}</div>`}).join('');
+  const comp=L.length>=MIN_SETS;let verdict='',actions='';
+  if(comp){const c=h[0]?cmp(L,h[0].sets):null;
+    verdict=`<div class="alert ${c==null||c>0?'good':c<0?'bad':'warn'}">${r.n} · ${s.n} tamamlandı ✓<br>${c==null?'İlk kayıt alındı.':c>0?'▲ Geçen seferi geçtin, overload var.':c<0?'▼ Geçen seferin gerisinde kaldın.':pl?'🚨 4. antrenmandır artış yok. Plato!':'= Geçen seferle aynı. Yerinde saydın.'}</div>`;
+    const nx=nextInRegion(r,ex);
+    actions=`${L.length<3?`<button class="btn soft" data-act="setSheet" data-r="${r.id}" data-s="${s.id}" data-x="${ex}" data-i="${L.length}">${L.length+1}. set (cila) — opsiyonel</button><div style="height:10px"></div>`:''}
+${nx?`<a class="btn" href="${nx.href}" style="background:${r.c}">Sıradaki: ${nx.label} →</a>`:`<a class="btn ok" href="#workout">${r.n} bitti 🎉 Bölgelere dön</a>`}`;
+  }else actions=`<button class="btn" style="background:${r.c}" data-act="setSheet" data-r="${r.id}" data-s="${s.id}" data-x="${ex}" data-i="${L.length}">${L.length+1}. sete gir</button>`;
+  return `${hdr(`#region/${r.id}`,EX[ex].n,`${r.ic} ${r.n} · ${s.n}`)}
+${pl?`<div class="alert bad">🚨 Plato tehlikesi: son 3 antrenmanda ne ağırlık ne tekrar arttı. Bugün en az 1 tekrar fazlası şart.</div>`:''}
+${tg}
+${L.length?`<div class="card">${rows}</div>`:''}
+${verdict}${actions}
+<h2>Son ${h.length||''} antrenman</h2>
+<div class="card">${h.length?h.map((x,j)=>`<div class="h"><span class="d">${fmtD(x.date)}</span><span class="s b">${x.sets.map(y=>setT(y,ex)).join(' · ')}</span><span>${j<h.length-1?arrow(cmp(x.sets,h[j+1].sets)):''}</span></div>`).join('')
+ +avgBox(a,ex):'<div class="mut">Kayıt yok.</div>'}</div>`;
+}
+const arrow=c=>c>0?'<span style="color:var(--ok)">▲</span>':c<0?'<span style="color:var(--bad)">▼</span>':'<span style="color:var(--part)">=</span>';
+const avgBox=(a,ex)=>a[0]?`<div class="avg"><b>Son ${a[0].n} ort.</b> · ${a.map((x,i)=>x?`${i+1}. set ${kgT(x.kg,ex)} × ${x.reps}`:'').filter(Boolean).join(' · ')}</div>`:'';
+
+/* ---------- alt sayfalar (sheet) ---------- */
+function vSheet(){
+  const r=reg(sheet.r),s=slotOf(r,sheet.s);
+  if(sheet.t==='pick'){const sg=suggest(s);
+    return `<div class="ov" data-ov="close"><div class="sh"><h3>${r.ic} ${s.n}: hangisi?</h3>
+${s.opts.map((o,i)=>{const d=o.map(lastDate).sort().reverse()[0];return `<div class="opt ${i===sg?'sug':''}" data-act="pick" data-i="${i}"><div class="sp"><div class="b">${optName(o)}</div><div class="mut sm">${o.map(x=>lastLine(x)).join('<br>')}</div></div>${i===sg?'<span class="badge b-done">Sıradaki</span>':''}</div>`}).join('')}
+<button class="btn ghost" data-act="close" style="margin-top:8px">Vazgeç</button></div></div>`}
+  const ex=sheet.x,i=sheet.i,cur=logs(ex)[i],t=target(ex),p=t?.h.sets[i];
+  const kg=cur?cur.kg:i>0&&logs(ex)[0]?logs(ex)[0].kg:t&&!t.up?t.kg:'',reps=cur?cur.reps:p?p.reps:'';
+  return `<div class="ov" data-ov="close"><div class="sh">
+<div class="row"><h3 class="sp">${i+1}. set · ${EX[ex].n}</h3></div>
+<div class="mut sm" style="margin:4px 0 10px">${p?`Geçen sefer ${i+1}. set: <b>${setT(p,ex)}</b>`:'Geçen kayıt yok'}${t?.up&&i===0?` · <b style="color:var(--ok)">ağırlığı artır ⬆</b>`:''}</div>
+<div class="lbl">${EX[ex].bw?'Ek ağırlık (kg, 0 = BW)':'Ağırlık (kg)'}</div>
+<div class="stp"><input id="iKg" inputmode="decimal" value="${kg}" placeholder="${t?.up&&i===0?'> '+t.from:'kg'}" ${kg===''?'data-auto':''}></div>
+<div class="lbl">Tekrar</div>
+<div class="stp"><button data-act="step" data-f="reps" data-d="-1">−</button><input id="iReps" inputmode="numeric" value="${reps}" ${cur||kg===''?'':'data-auto'}><button data-act="step" data-f="reps" data-d="1">+</button></div>
+<button class="btn" style="background:${r.c}" data-act="saveSet">Kaydet</button>
+${cur?`<button class="btn ghost" data-act="delSet" style="color:var(--bad)">Seti sil</button>`:`<button class="btn ghost" data-act="close">Vazgeç</button>`}
+</div></div>`;
+}
+function vSummary(){
+  const s=S.sessions.find(x=>x.id===summary);if(!s)return'';
+  const lines=Object.entries(s.logs).map(([ex,sets])=>{const p=hist(ex,1,s.date)[0];return{ex,sets,c:p&&sets.length>=MIN_SETS?cmp(sets,p.sets):null,p}});
+  const up=lines.filter(l=>l.c>0).length,cm=lines.filter(l=>l.c!=null).length,dn=lines.filter(l=>l.c<0).length;
+  const inc=REG.filter(r=>r.slots.some(sl=>sl.opts.flat().some(x=>s.logs[x]))&&!r.slots.every(sl=>sl.opts.some(o=>o.every(x=>(s.logs[x]||[]).length>=MIN_SETS))));
+  let v=!cm?'<div class="alert good">İlk kayıtlar alındı. Bir dahakine hedeflerin hazır.</div>':up===0?'<div class="alert bad">🗑 Hiçbir harekette artış yok. Bu antrenman yerinde saydı.</div>':dn>up?'<div class="alert warn">Gerileyen hareket ilerleyenden fazla. Yorgunluk/uyku?</div>':`<div class="alert good">💪 ${up}/${cm} harekette overload</div>`;
+  return `<div class="ov" data-ov="closeSum"><div class="sh"><h3>Antrenman özeti · ${fmtD(s.date)}</h3><div style="height:10px"></div>${v}
+${inc.length?`<div class="alert warn">Yarım kalan bölge: ${inc.map(r=>r.n).join(', ')}</div>`:''}
+${lines.map(l=>`<div class="it" style="cursor:default"><span style="width:16px">${l.c==null?'<span class="mut">•</span>':arrow(l.c)}</span><div class="sp"><div class="b">${EX[l.ex].n}</div><div class="mut sm">${l.sets.map(x=>setT(x,l.ex)).join(', ')}${l.p?` ← ${l.p.sets.map(x=>setT(x,l.ex)).join(', ')}`:''}</div></div></div>`).join('')}
+<div class="mut sm" style="margin:10px 0">Bu hafta: ${weekCount(weekStart())}/${S.weekly}</div>
+<button class="btn" data-act="closeSum">Tamam</button></div></div>`;
+}
+
+/* ---------- istatistik ---------- */
+function vStats(){
+  return `${hdr('#home','İstatistik','Her hareketin son durumu')}
+${REG.map(r=>{const xs=[...new Set(r.slots.flatMap(s=>s.opts.flat()))];return `<h2 style="color:${r.c}">${r.ic} ${r.n}</h2><div class="card">${xs.map(x=>{const h=hist(x,2);
+  return `<div class="it" onclick="location.hash='#stat/${x}'"><div class="sp"><div class="b">${EX[x].n}</div><div class="mut sm">${h[0]?`${fmtD(h[0].date)} · ${h[0].sets.map(y=>setT(y,x)).join(', ')}`:'Kayıt yok'}</div></div>
+${plateau(x)?'<span class="badge b-part">plato</span>':h[1]?arrow(cmp(h[0].sets,h[1].sets)):''}</div>`}).join('')}</div>`}).join('')}`;
+}
+function vStat(ex){
+  if(!EX[ex])return vStats();
+  const h=hist(ex,50),pts=h.slice(0,20).reverse(),a=avg3(ex),t=target(ex);
+  let ch='';
+  if(pts.length>1){const vs=pts.map(p=>score(p.sets[0])),mn=Math.min(...vs),mx=Math.max(...vs),W=320,H=100,pd=8;
+    const xy=vs.map((v,i)=>[pd+i*(W-2*pd)/(vs.length-1),H-pd-(mx===mn?.5:(v-mn)/(mx-mn))*(H-2*pd)]);
+    ch=`<div class="card"><div class="mut sm">1. set gücü (${EX[ex].bw&&pts.every(p=>p.sets[0].kg===0)?'tekrar':'tahmini 1RM'}) · ${r1(vs[0])} → ${r1(vs[vs.length-1])}</div>
+<svg class="ch" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none"><polyline fill="none" stroke="#ff7a59" stroke-width="3" stroke-linejoin="round" vector-effect="non-scaling-stroke" points="${xy.map(p=>p.join(',')).join(' ')}"/>${xy.map(p=>`<circle cx="${p[0]}" cy="${p[1]}" r="3.5" fill="#ff7a59"/>`).join('')}</svg></div>`}
+  return `${hdr('#stats',EX[ex].n,`${h.length} kayıt`)}
+${plateau(ex)?'<div class="alert bad">🚨 Plato: son 3 antrenmanda ağırlık da tekrar da artmadı.</div>':''}
+${t?`<div class="tgt ${t.up?'up':'reps'}"><b>Sıradaki hedef</b>${t.up?`Ağırlığı artır (geçen: ${kgT(t.from,ex)}), sıradaki kiloyu tak`:`${kgT(t.kg,ex)}'da kal, 1. sette ${t.h.sets[0].reps+1}+ tekrar`}</div>`:''}
+${ch}<div class="card">${h.length?avgBox(a,ex).replace('class="avg"','class="avg" style="margin:0 0 8px"')+h.map((x,j)=>`<div class="h"><span class="d">${fmtD(x.date)}</span><span class="s b">${x.sets.map(y=>setT(y,ex)).join(' · ')}</span><span>${j<h.length-1?arrow(cmp(x.sets,h[j+1].sets)):''}</span></div>`).join(''):'<div class="mut">Kayıt yok.</div>'}</div>`;
+}
+function vSettings(){
+  return `${hdr('#home','Ayarlar')}
+<div class="card"><div class="row"><span class="sp b">Haftalık hedef</span><button class="back" data-act="wk" data-d="-1">−</button><b style="font-size:20px;width:24px;text-align:center">${S.weekly}</b><button class="back" data-act="wk" data-d="1">+</button></div></div>
+<div class="card"><div class="b">Kurallar</div><div class="mut sm" style="margin-top:4px">• ${MIN_SETS} set = hareket tamam, 3. set opsiyonel<br>• 1. sette ${OVERLOAD_AT} tekrarı geçersen → bir sonraki sefer ağırlık artır<br>• 3 antrenman boyunca ağırlık/tekrar artmazsa → plato uyarısı<br>• Dönüşümlü: Row ↔ Face Pull, bacak hareketleri</div></div>
+<div class="card"><div class="b">Yedek</div><div class="mut sm" style="margin:4px 0 10px">Veriler sadece bu tarayıcıda. Ara ara yedek indir.</div>
+<button class="btn soft" data-act="export">Yedeği indir</button><div style="height:8px"></div><button class="btn soft" data-act="import">Yedekten yükle</button></div>
+<div class="card"><button class="btn soft" data-act="demo">Örnek verileri yükle</button><div style="height:8px"></div><button class="btn ghost" style="color:var(--bad)" data-act="reset">Her şeyi sil</button></div>`;
+}
+
+/* ---------- işlemler ---------- */
+const A={
+  start:()=>{S.active={start:new Date().toISOString(),picks:{},logs:{}};save();location.hash='#workout'},
+  pickSheet:d=>{sheet={t:'pick',r:d.r,s:d.s};render()},
+  pick:d=>{const r=reg(sheet.r),s=slotOf(r,sheet.s);S.active.picks[K(r,s)]=+d.i;save();const xs=s.opts[+d.i];sheet=null;
+    if(xs.length===1)location.hash=`#ex/${r.id}/${s.id}/${xs[0]}`;else{location.hash=`#region/${r.id}`;render()}},
+  setSheet:d=>{sheet={t:'set',r:d.r,s:d.s,x:d.x,i:+d.i};render()},
+  close:()=>{sheet=null;render()},
+  step:d=>{const el=document.getElementById(d.f==='kg'?'iKg':'iReps');let v=num(el.value)??0;v=r2(Math.max(0,v+ +d.d));el.value=v},
+  saveSet:()=>{const kg=num(document.getElementById('iKg').value),reps=num(document.getElementById('iReps').value);
+    if(kg==null||kg<0)return alert('Ağırlık gir.');if(!reps||reps<1)return alert('Tekrar gir.');
+    const L=S.active.logs[sheet.x]||(S.active.logs[sheet.x]=[]);L[sheet.i]={kg,reps:Math.round(reps)};save();sheet=null;render()},
+  delSet:()=>{const L=S.active.logs[sheet.x];L.splice(sheet.i,1);if(!L.length)delete S.active.logs[sheet.x];save();sheet=null;render()},
+  finish:()=>{const lg=Object.fromEntries(Object.entries(S.active.logs).filter(([,v])=>v.length));
+    if(!Object.keys(lg).length){if(confirm('Hiç set girilmedi. Antrenman kaydedilmeden kapansın mı?')){S.active=null;save();location.hash='#home'}return}
+    if(!confirm('Antrenman bitirilsin mi?'))return;
+    const s={id:uid(),date:S.active.start,end:new Date().toISOString(),logs:lg};S.sessions.push(s);S.active=null;summary=s.id;save();location.hash='#home';render()},
+  cancel:()=>{if(confirm('Antrenman silinsin mi? Girilen setler kaybolur.')){S.active=null;save();location.hash='#home'}},
+  closeSum:()=>{summary=null;render()},
+  wk:d=>{S.weekly=Math.max(1,Math.min(7,S.weekly+ +d.d));save();render()},
+  export:async()=>{const fn='overload-yedek-'+new Date().toISOString().slice(0,10)+'.json',b=new Blob([JSON.stringify(S)],{type:'application/json'});try{const f=new File([b],fn,{type:'application/json'});if(navigator.canShare&&navigator.canShare({files:[f]})){await navigator.share({files:[f],title:'Overload yedek'});return}}catch(e){if(e&&e.name==='AbortError')return}const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=fn;document.body.appendChild(a);a.click();a.remove()},
+  import:()=>document.getElementById('importFile').click(),
+  demo:()=>{if(S.sessions.length&&!confirm('Mevcut verilerin yerine örnek veriler yüklensin mi?'))return;S=makeDemo();save();location.hash='#home';render()},
+  reset:()=>{if(confirm('Tüm kayıtlar silinsin mi?')&&confirm('Geri alınamaz. Emin misin?')){S=blank();save();location.hash='#home';render()}},
+};
+document.addEventListener('click',e=>{if(e.target.dataset&&e.target.dataset.ov){A[e.target.dataset.ov]();return}const el=e.target.closest('[data-act]');if(el&&A[el.dataset.act]){e.preventDefault();e.stopPropagation();A[el.dataset.act](el.dataset)}});
+document.addEventListener('keydown',e=>{if(e.key==='Enter'&&sheet?.t==='set')A.saveSet()});
+document.getElementById('importFile').addEventListener('change',e=>{const f=e.target.files[0];if(!f)return;const rd=new FileReader();
+  rd.onload=()=>{try{const d=JSON.parse(rd.result);if(!Array.isArray(d.sessions))throw 0;if(confirm('Yedek yüklensin mi? Mevcut veriler değişecek.')){S=Object.assign(blank(),d);save();location.hash='#home';render()}}catch(x){alert('Geçersiz yedek dosyası.')}};rd.readAsText(f);e.target.value=''});
+addEventListener('hashchange',()=>{sheet=null;render();scrollTo(0,0)});
+
+/* ---------- örnek veri ---------- */
+function makeDemo(){
+  const keep=S,D=blank();S=D;
+  const base={bench:70,chestpress:60,pecfly:45,pullup:0,pulldown:55,cablerow:55,facepull:20,shpress:50,lateral:10,ropecurl:20,bayesian:12.5,ropepush:25,singlepush:12.5,ohext:20,legcurl:45,hack:80,calf:70,legext:50};
+  const stuck={chestpress:1,lateral:1};
+  const ws=weekStart(),dow=(new Date().getDay()+6)%7,dates=[];
+  for(let w=4;w>=1;w--)for(const o of[0,2,4]){const d=new Date(ws);d.setDate(d.getDate()-7*w+o);dates.push(d)}
+  for(const o of[0,2])if(o<dow){const d=new Date(ws);d.setDate(d.getDate()+o);dates.push(d)}
+  let k=0;
+  for(const d of dates){d.setHours(19,0);const iso=d.toISOString(),lg={};k++;
+    for(const r of REG)for(const s of r.slots){
+      if(s.id==='press'&&k%5===0)continue;
+      const oi=s.rot?suggest(s):s.opts.length>1?(s.id==='push'?(k%3===0?0:1):k%s.opts.length):0;
+      for(const ex of s.opts[oi]){const t=target(ex),h=hist(ex,1)[0];let sets;
+        if(!t)sets=[{kg:base[ex],reps:7},{kg:base[ex],reps:6}];
+        else if(stuck[ex])sets=h.sets.map(x=>({...x}));
+        else if(t.up){const nk=r2(t.from+(t.from<15?2:5));sets=[{kg:nk,reps:6},{kg:nk,reps:5}]}
+        else{sets=h.sets.slice(0,2).map(x=>({...x}));if((k+ex.length)%2)sets[0].reps++;else sets[1].reps++}
+        lg[ex]=sets}}
+    D.sessions.push({id:uid(),date:iso,end:new Date(d.getTime()+75*6e4).toISOString(),logs:lg})}
+  S=keep;return D;
+}
+render();
+if('serviceWorker' in navigator&&location.protocol==='https:')navigator.serviceWorker.register('sw.js').catch(()=>{});
+if(navigator.storage&&navigator.storage.persist)navigator.storage.persist().catch(()=>{});
+</script>
+</body>
+</html>
